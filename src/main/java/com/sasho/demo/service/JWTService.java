@@ -1,4 +1,4 @@
-package com.sasho.demo;
+package com.sasho.demo.service;
 
 import com.sasho.demo.domain.Authority;
 import com.sasho.demo.domain.DomainUser;

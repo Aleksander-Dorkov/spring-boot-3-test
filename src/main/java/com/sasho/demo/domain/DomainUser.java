@@ -1,11 +1,11 @@
 package com.sasho.demo.domain;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,8 +26,8 @@ public class DomainUser implements UserDetails {
     private int birthYear;
     @OneToOne(
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST},
-            mappedBy = "user"
+            mappedBy = "user",
+            cascade = CascadeType.PERSIST
     )
     private Address address;
     @OneToMany(
@@ -40,13 +40,15 @@ public class DomainUser implements UserDetails {
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
-    @JoinTable(name = "users_cars",
+    @JoinTable(
+            name = "users_cars",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "car_id", referencedColumnName = "id")
     )
     private Set<Car> cars = new HashSet<>();
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_authorities",
+    @JoinTable(
+            name = "users_authorities",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id")
     )

@@ -1,6 +1,6 @@
 package com.sasho.demo.filters;
 
-import com.sasho.demo.JWTService;
+import com.sasho.demo.service.JWTService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
