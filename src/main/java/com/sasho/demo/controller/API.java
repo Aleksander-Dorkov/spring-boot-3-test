@@ -33,7 +33,7 @@ public class API {
     }
 
     @PostMapping("/")
-    public PostTest postRoot(PostTest request) {
+    public PostTest postRoot(@RequestBody PostTest request) {
         return request;
     }
 

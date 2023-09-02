@@ -27,24 +27,27 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+    private static final String CSRF_COOKIE = "XSRF-TOKEN";
+    private static final String CSRF_TOKEN_HEADER = "X-XSRF-TOKEN";
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final LoggingFilter loggingFilter;
 
     @Bean
     public SecurityFilterChain appSecurity(HttpSecurity http) throws Exception {
-        CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
-        requestHandler.setCsrfRequestAttributeName(null);
-        CookieCsrfTokenRepository cookieCsrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        cookieCsrfTokenRepository.setHeaderName("X-XSRF-TOKEN");
-        cookieCsrfTokenRepository.setCookieName("XSRF-TOKEN");
-        cookieCsrfTokenRepository.setCookiePath("/");
         return http
                 .sessionManagement(e -> e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf((csrf) -> csrf
-                        .csrfTokenRepository(cookieCsrfTokenRepository)
-                        .csrfTokenRequestHandler(requestHandler)
+                .csrf((csrf) -> {
+                            CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+                            requestHandler.setCsrfRequestAttributeName(null);
+                            CookieCsrfTokenRepository cookieCsrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+                            cookieCsrfTokenRepository.setHeaderName(CSRF_TOKEN_HEADER); // this means, it expects a header with this name
+                            cookieCsrfTokenRepository.setCookieName(CSRF_COOKIE); // this means it will send a cookie with this name
+                            cookieCsrfTokenRepository.setCookiePath("/");
+
+                            csrf.csrfTokenRepository(cookieCsrfTokenRepository).csrfTokenRequestHandler(requestHandler);
+                        }
                 )
                 .cors(Customizer.withDefaults()) // by default uses a Bean by the name of corsConfigurationSource
                 .authorizeHttpRequests(e ->
@@ -73,8 +76,8 @@ public class WebSecurityConfig {
         configuration.addAllowedOrigin("http://localhost:4200"); // Allow requests from Angular app running on localhost
         configuration.addAllowedMethod("*"); // Allow all HTTP methods
         configuration.addAllowedHeader("*"); // Allow all headers
-        configuration.addAllowedHeader("XSRF-TOKEN");
-        configuration.addAllowedHeader("X-XSRF-TOKEN");
+        configuration.addAllowedHeader(CSRF_COOKIE);
+        configuration.addAllowedHeader(CSRF_TOKEN_HEADER);
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
