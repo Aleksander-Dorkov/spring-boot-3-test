@@ -1,12 +1,15 @@
 package com.sasho.demo.controller;
 
-import com.sasho.demo.configuration.Authorities;
+import com.sasho.demo.configuration.security.Authorities;
+import com.sasho.demo.configuration.security.JWTService;
+import com.sasho.demo.controller.model.request.AddNewAddress;
+import com.sasho.demo.controller.model.request.PostTest;
 import com.sasho.demo.controller.model.request.RegisterUserRequest;
+import com.sasho.demo.controller.model.response.EmptyResponse;
 import com.sasho.demo.domain.Address;
 import com.sasho.demo.domain.DomainUser;
 import com.sasho.demo.repository.AuthorityRepo;
 import com.sasho.demo.repository.UserRepo;
-import com.sasho.demo.service.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +28,13 @@ public class API {
     private final JWTService jwtService;
 
     @GetMapping("/")
-    public String greeting() {
-        return "hello world";
+    public EmptyResponse getRoot() {
+        return new EmptyResponse("hello world");
+    }
+
+    @PostMapping("/")
+    public PostTest postRoot(PostTest request) {
+        return request;
     }
 
     @PostMapping("/users/register")

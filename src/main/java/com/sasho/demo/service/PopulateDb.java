@@ -1,6 +1,6 @@
 package com.sasho.demo.service;
 
-import com.sasho.demo.configuration.Authorities;
+import com.sasho.demo.configuration.security.Authorities;
 import com.sasho.demo.domain.Authority;
 import com.sasho.demo.repository.AuthorityRepo;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class PopulateDb implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (authorityRepo.findById(1L).orElse(null) != null) {
+        if(!authorityRepo.findAll().isEmpty()){
             return;
         }
         var a1 = Authority.builder().authority(Authorities.ROLE_ADMIN.name()).build();

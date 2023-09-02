@@ -1,6 +1,5 @@
-package com.sasho.demo.filters;
+package com.sasho.demo.configuration.security;
 
-import com.sasho.demo.service.JWTService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+
+import static org.springframework.util.StringUtils.hasText;
 
 @Component
 @RequiredArgsConstructor
@@ -24,9 +25,9 @@ public class JwtAuthenticationFilter implements Filter {
     }
 
     private String extractJWT(ServletRequest servletRequest) {
-        String authorizationHeader = ((HttpServletRequest) servletRequest).getHeader("Authorization");
-        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
-            return authorizationHeader.substring(7);  // Skip "Bearer "
+        String header = ((HttpServletRequest) servletRequest).getHeader("Authorization");
+        if (hasText(header) && header.startsWith("Bearer ")) {
+            return header.substring(7);  // Skip "Bearer "
         }
         return "";
     }

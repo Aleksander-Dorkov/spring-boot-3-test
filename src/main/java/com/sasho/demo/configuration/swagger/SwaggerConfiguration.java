@@ -1,4 +1,4 @@
-package com.sasho.demo.configuration;
+package com.sasho.demo.configuration.swagger;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
