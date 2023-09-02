@@ -1,10 +1,6 @@
 package com.sasho.demo.configuration.security;
 
 import com.sasho.demo.filters.LoggingFilter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,18 +13,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
-import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
 
 
 @Configuration
@@ -41,22 +32,20 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain appSecurity(HttpSecurity http) throws Exception {
+        CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+        requestHandler.setCsrfRequestAttributeName(null);
+        CookieCsrfTokenRepository cookieCsrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        cookieCsrfTokenRepository.setHeaderName("X-XSRF-TOKEN");
+        cookieCsrfTokenRepository.setCookieName("XSRF-TOKEN");
+        cookieCsrfTokenRepository.setCookiePath("/");
         return http
                 .sessionManagement(e -> e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(csrf -> {
-                    CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-                    XorCsrfTokenRequestAttributeHandler delegate = new XorCsrfTokenRequestAttributeHandler();
-                    // set the name of the attribute the CsrfToken will be populated on
-                    delegate.setCsrfRequestAttributeName("_csrf");
-                    // Use only the handle() method of XorCsrfTokenRequestAttributeHandler and the
-                    // default implementation of resolveCsrfTokenValue() from CsrfTokenRequestHandler
-                    CsrfTokenRequestHandler requestHandler = delegate::handle;
-                    csrf.csrfTokenRepository(tokenRepository)
-                            .csrfTokenRequestHandler(requestHandler);
-
-                })
+                .csrf((csrf) -> csrf
+                        .csrfTokenRepository(cookieCsrfTokenRepository)
+                        .csrfTokenRequestHandler(requestHandler)
+                )
                 .cors(Customizer.withDefaults()) // by default uses a Bean by the name of corsConfigurationSource
                 .authorizeHttpRequests(e ->
                         e.requestMatchers("/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**", "/", "/users/register", "/users/login")
@@ -69,23 +58,9 @@ public class WebSecurityConfig {
                                 .authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(loggingFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(loggingFilter, ChannelProcessingFilter.class)
                 .build();
     }
-
-//    private static final class CsrfCookieFilter extends OncePerRequestFilter {
-//
-//        @Override
-//        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-//                throws ServletException, IOException {
-////            CsrfTokenRequestAttributeHandler
-//            CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-//            // Render the token value to a cookie by causing the deferred token to be loaded
-//            csrfToken.getToken();
-//
-//            filterChain.doFilter(request, response);
-//        }
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
