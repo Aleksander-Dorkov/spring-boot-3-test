@@ -6,7 +6,7 @@ spring:
     url: jdbc:postgresql://localhost:5431/postgres
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true

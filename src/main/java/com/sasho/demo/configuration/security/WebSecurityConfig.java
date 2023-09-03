@@ -51,7 +51,7 @@ public class WebSecurityConfig {
                 )
                 .cors(Customizer.withDefaults()) // by default uses a Bean by the name of corsConfigurationSource
                 .authorizeHttpRequests(e ->
-                        e.requestMatchers("/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**", "/", "/users/register", "/users/login")
+                        e.requestMatchers("/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**", "/", "/csrf", "/users/register", "/users/login")
                                 .permitAll()
                                 .requestMatchers("/user/**")
                                 .hasAnyRole("USER", "ADMIN")
