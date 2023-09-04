@@ -1,7 +1,6 @@
 package com.sasho.demo;
 
 import com.sasho.demo.controller.model.request.RegisterUserRequest;
-import com.sasho.demo.repository.AuthorityRepo;
 import com.sasho.demo.repository.UserRepo;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static io.restassured.RestAssured.given;
 
 class TestLoginRegisterUser extends BaseTestClass {
-    @Autowired
-    private AuthorityRepo authorityRepo;
     @Autowired
     private UserRepo userRepo;
 

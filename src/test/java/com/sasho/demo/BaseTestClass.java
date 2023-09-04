@@ -1,7 +1,8 @@
 package com.sasho.demo;
 
 import com.sasho.demo.controller.model.request.RegisterUserRequest;
-import com.sasho.demo.testConfig.PopulateDBBeforeAllTests;
+import com.sasho.demo.testConfig.PopulateDB;
+import com.sasho.demo.testConfig.TestUsers;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -22,7 +23,7 @@ import static io.restassured.RestAssured.given;
 @ActiveProfiles(profiles = "test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ContextConfiguration(classes = {DemoApplication.class, PopulateDBBeforeAllTests.class})
+@ContextConfiguration(classes = {DemoApplication.class, PopulateDB.class})
 public abstract class BaseTestClass {
     @LocalServerPort
     private int port;
@@ -30,7 +31,7 @@ public abstract class BaseTestClass {
     protected String jwtToken;
 
     @BeforeAll
-    public void setUp() {
+    public void initialTestSetUp() {
         setUpRestAssured();
     }
 
@@ -50,7 +51,7 @@ public abstract class BaseTestClass {
     }
 
     protected void logInUserWithAllAuthorities() {
-        var request = new RegisterUserRequest("sasho", "1234");
+        var request = new RegisterUserRequest(TestUsers.ALL_AUTHORITIES_USER.userName(), TestUsers.ALL_AUTHORITIES_USER.password());
         Response response = given()
                 .contentType(ContentType.JSON)
                 .body(request)

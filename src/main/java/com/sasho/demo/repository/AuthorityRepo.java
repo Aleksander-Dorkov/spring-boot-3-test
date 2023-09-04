@@ -9,4 +9,6 @@ import java.util.Set;
 @Repository
 public interface AuthorityRepo extends JpaRepository<Authority, Long> {
     Set<Authority> findAllByAuthorityIn(Set<String> authorityNames);
+
+    Authority findAllByAuthority(String authorityName);
 }

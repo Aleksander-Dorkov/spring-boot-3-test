@@ -3,6 +3,7 @@ package com.sasho.demo;
 import com.sasho.demo.controller.model.request.AddNewAddress;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
