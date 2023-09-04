@@ -76,13 +76,4 @@ public class UserController {
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
-
-    @PostMapping("/address")
-    public String addAddress(@RequestBody AddNewAddress request) {
-        var user = this.userRepo.findById(request.userId()).get();
-        var address = Address.builder().street(request.street()).city(request.city()).build();
-        user.addAddress(address);
-        this.userRepo.save(user);
-        return "success";
-    }
 }

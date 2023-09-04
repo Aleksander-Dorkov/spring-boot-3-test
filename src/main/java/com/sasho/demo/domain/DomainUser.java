@@ -27,6 +27,7 @@ public class DomainUser implements UserDetails {
     @OneToOne(
             fetch = FetchType.LAZY,
             mappedBy = "user",
+            optional = false,
             cascade = CascadeType.PERSIST
     )
     private Address address;

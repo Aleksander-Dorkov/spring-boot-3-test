@@ -16,4 +16,6 @@ public interface UserRepo extends JpaRepository<DomainUser, Long> {
 
     @EntityGraph(attributePaths = {"authorities"})
     DomainUser findByUsername(String username);
+
+    DomainUser findDomainUserById(Long id);
 }
