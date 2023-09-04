@@ -19,6 +19,7 @@
         <jjwt.version>0.11.5</jjwt.version>
         <swagger.version>2.2.0</swagger.version>
         <mapstrcuct.version>1.5.5.Final</mapstrcuct.version>
+        <rest.assured.version>4.5.1</rest.assured.version>
     </properties>
     <dependencies>
         <!--Non Spring Managed dependencies-->
@@ -52,10 +53,11 @@
             <version>${jjwt.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!--Rest Assured for tests-->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>4.5.1</version>
+            <version>${rest.assured.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -64,7 +66,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <!--Non Spring Managed dependencies ENDS-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -106,6 +108,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-docker-compose</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

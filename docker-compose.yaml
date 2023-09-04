@@ -1,0 +1,25 @@
+version: '3.5'
+name: for-personal-projects
+services:
+  postgre:
+    image: postgres
+    container_name: postgres-for-tests
+    ports:
+      - '5430:5432'
+    networks:
+      - postgres-network
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=test-user
+  redis:
+    image: redis
+    container_name: redis-for-test
+    ports:
+      - '6370:6379'
+    networks:
+      - redis-network
+networks:
+  postgres-network:
+    driver: bridge
+  redis-network:
+    driver: bridge
