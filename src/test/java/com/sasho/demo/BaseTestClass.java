@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Map;
 
@@ -23,8 +22,8 @@ import static io.restassured.RestAssured.given;
 @ActiveProfiles(profiles = "test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ContextConfiguration(classes = {DemoApplication.class, PopulateDB.class})
-@Import(Pesho.class)
+//@ContextConfiguration(classes = {DemoApplication.class, PopulateDB.class})
+@Import(PopulateDB.class)
 public abstract class BaseTestClass {
 
     @LocalServerPort
