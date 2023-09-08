@@ -2,18 +2,18 @@ version: '3.5'
 name: for-personal-projects
 services:
   postgre:
-    image: postgres
-    container_name: postgres-for-tests
+    image: postgres:15.4
+    container_name: postgres-for-personal-use
     ports:
       - '5430:5432'
     networks:
       - postgres-network
     environment:
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=1234
-      - POSTGRES_USER=test-user
   redis:
-    image: redis
-    container_name: redis-for-test
+    image: redis:7.2.1
+    container_name: redis-for-personal-use
     ports:
       - '6370:6379'
     networks:
