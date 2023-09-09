@@ -2,19 +2,16 @@ package com.sasho.demo;
 
 import com.sasho.demo.controller.model.request.AddNewAddress;
 import com.sasho.demo.controller.model.request.UpdateAddressRequest;
-import com.sasho.demo.repository.AddressRepo;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.*;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestAddress extends BaseTestClass {
-    @SpyBean
-    private AddressRepo addressRepo;
 
     @BeforeAll
     public void setUp() {
