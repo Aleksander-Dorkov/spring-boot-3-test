@@ -4,13 +4,12 @@ import com.sasho.demo.controller.model.request.RegisterUserRequest;
 import com.sasho.demo.repository.UserRepo;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.restassured.RestAssured.given;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestLoginRegisterUser extends BaseTestClass {
     @Autowired
     private UserRepo userRepo;
