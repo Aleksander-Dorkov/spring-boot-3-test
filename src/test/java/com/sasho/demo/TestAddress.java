@@ -2,12 +2,13 @@ package com.sasho.demo;
 
 import com.sasho.demo.controller.model.request.AddNewAddress;
 import com.sasho.demo.controller.model.request.UpdateAddressRequest;
-import io.restassured.http.ContentType;
+import com.sasho.demo.controller.model.response.EmptyResponse;
+import com.sasho.demo.testConfig.TestClient;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,28 +23,16 @@ public class TestAddress extends BaseTestClass {
     @Order(1)
     public void test_Add_Address() {
         var request = AddNewAddress.builder().street("aa").city("bb").userId(1L).build();
-        given()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/address")
-                .then()
-                .statusCode(200);
+        var resp = TestClient.post("/address", request, HttpStatus.OK, EmptyResponse.class);
     }
 
-    @Test
+    @Test()
     @Order(2)
     public void test_Update_Address() {
         var request = UpdateAddressRequest.builder().street("cc").city("dd").addressId(1L).build();
-        given()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .put("/address")
-                .then()
-                .statusCode(200);
+        var resp = TestClient.put("/address", request, HttpStatus.OK, EmptyResponse.class);
 
-        var address = addressRepo.findById(1l).get();
+        var address = addressRepo.findById(1L).get();
         assertEquals("cc", address.getStreet());
         assertEquals("dd", address.getCity());
     }
@@ -51,14 +40,7 @@ public class TestAddress extends BaseTestClass {
     @Test
     @Order(3)
     public void test_Delete_Address() {
-        given()
-                .contentType(ContentType.JSON)
-                .pathParam("id", 1)
-                .when()
-                .delete("/address/{id}")
-                .then()
-                .statusCode(200);
-
+        var resp = TestClient.delete("/address/1", HttpStatus.OK, EmptyResponse.class);
         var all = this.addressRepo.findAll();
         assertTrue(all.isEmpty());
     }

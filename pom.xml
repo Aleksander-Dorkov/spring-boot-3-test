@@ -15,59 +15,12 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>17</java.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <jjwt.version>0.11.5</jjwt.version>
         <swagger.version>2.2.0</swagger.version>
-        <mapstrcuct.version>1.5.5.Final</mapstrcuct.version>
-        <rest.assured.version>4.5.1</rest.assured.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <rest.assured.version>5.3.2</rest.assured.version>
     </properties>
     <dependencies>
-        <!--Non Spring Managed dependencies-->
-        <!--MapStruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstrcuct.version}</version>
-        </dependency>
-        <!--Swagger-->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <!--JWT-->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jjwt.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jjwt.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
-            <version>${jjwt.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <!--Rest Assured for tests-->
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>${rest.assured.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy-xml</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--Non Spring Managed dependencies ENDS-->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -115,21 +68,52 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-testcontainers</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.testcontainers</groupId>-->
-<!--            <artifactId>postgresql</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.testcontainers</groupId>-->
-<!--            <artifactId>junit-jupiter</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+
+        <!--Non Spring Managed dependencies-->
+        <!--MapStruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <!--Swagger-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <!--JWT-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!--Rest Assured for tests-->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest.assured.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy-xml</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--Non Spring Managed dependencies ENDS-->
     </dependencies>
 
     <build>

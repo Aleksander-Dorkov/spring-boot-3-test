@@ -22,6 +22,7 @@ public class PopulateDB {
         this.authorityRepo = authorityRepo;
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
+
         populateAuthorities();
         addUserWithAllAuthorities();
         addUserWithAdminAuthority();

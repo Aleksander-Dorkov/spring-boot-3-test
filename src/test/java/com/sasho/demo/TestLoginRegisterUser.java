@@ -1,11 +1,13 @@
 package com.sasho.demo;
 
 import com.sasho.demo.controller.model.request.RegisterUserRequest;
+import com.sasho.demo.testConfig.TestClient;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 import static io.restassured.RestAssured.given;
 
@@ -15,26 +17,14 @@ class TestLoginRegisterUser extends BaseTestClass {
     @Order(1)
     public void test_Register_User() {
         RegisterUserRequest request = new RegisterUserRequest("testuser", "password123");
-        given()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/users/register")
-                .then()
-                .statusCode(200);
+        TestClient.post("/users/register", request, HttpStatus.OK, Void.class);
     }
 
     @Test
     @Order(2)
     public void test_Register_User_Duplicate_Username() {
         RegisterUserRequest request = new RegisterUserRequest("testuser", "password123");
-        given()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/users/register")
-                .then()
-                .statusCode(403);
+        TestClient.post("/users/register", request, HttpStatus.FORBIDDEN, Void.class);
     }
 
     @Test
