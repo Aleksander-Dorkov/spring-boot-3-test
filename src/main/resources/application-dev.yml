@@ -3,10 +3,10 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: root
     password: 1234
-    url: jdbc:postgresql://localhost:5429/postgres
+    url: jdbc:postgresql://localhost:5430/postgres
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
@@ -15,13 +15,10 @@ spring:
   docker:
     compose:
       enabled: true
-      skip:
-        in-tests: false
+      file: docker-compose-dev.yaml
       lifecycle-management: start_and_stop
-      file: docker-compose-test.yaml
 springdoc:
   swagger-ui:
-    enabled: false
+    enabled: true
     csrf:
-      enabled: false
-
+      enabled: true
